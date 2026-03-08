@@ -4,14 +4,14 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "8080:80"
+      - "8081:80"
     networks:
       - cloud-network
  
   backend:
     build: ./backend
     ports:
-      - "8081:80"
+      - "8080:80"
     networks:
       - cloud-network
  
