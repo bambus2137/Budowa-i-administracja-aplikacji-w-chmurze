@@ -1,8 +1,9 @@
-#Wykorzystujemy minimalny obraz systemu Linux (Alpine)
-FROM alpine
+FROM python:3.11
 
-#Instalacja narzędzia curl do testów łączności międzyserwisowej
-RUN apk add --no-cache curl
+WORKDIR /app
 
-#Wypisanie statusu i zapętlenie procesu, aby kontener pozostał aktywny
-CMD ["sh", "-c", "echo 'Backend service is running...' && sleep infinity"]
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8081"]
