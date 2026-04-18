@@ -40,7 +40,7 @@ ALLOWED_HOSTS: list[str] = env.list("ALLOWED_HOSTS")
 CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS")
 
 DATABASE_NAME = env.str("DATABASE_NAME")
-DATABSAE_USER = env.str("DATABASE_USER")
+DATABASE_USER = env.str("DATABASE_USER")
 DATABASE_PASSWORD = env.str("DATABASE_PASSWORD")
 DATABASE_HOST = env.str("DATABASE_HOST")
 
@@ -66,10 +66,10 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
         'PASSWORD': DATABASE_PASSWORD,
-        'HOST': 'postgresdb.postgres.database.azure.com',
+        'HOST': DATABASE_HOST,
         'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',
