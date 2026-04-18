@@ -1,34 +1,43 @@
-version: "3.9"
-
 services:
   frontend:
     build: ./frontend
     ports:
       - "8080:80"
-    networks:
-      - cloud-network
-
-  db:
-    image: mcr.microsoft.com/azure-sql-edge
-    container_name: cloud-db
-    environment:
-      SA_PASSWORD: "StrongPassword123!"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-    volumes:
-      - sql-data:/var/opt/mssql
+    depends_on:
+      - backend
     networks:
       - cloud-network
 
   backend:
     build: ./backend
+    environment:
+      POSTGRES_PORT: 5432
     ports:
       - "8081:8081"
     networks:
       - cloud-network
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:18-alpine
+    container_name: cloud-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres@postgresdb
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sql-data:/var/lib/postgresql/18/docker
+    networks:
+      - cloud-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tasks"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   sql-data:

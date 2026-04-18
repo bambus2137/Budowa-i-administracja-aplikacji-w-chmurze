@@ -1,3 +1,6 @@
-django
+Django
 djangorestframework
-psycopg2
+django-cors-headers
+django-environ
+psycopg2-binary
+dotenv
