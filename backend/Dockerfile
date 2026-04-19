@@ -10,5 +10,5 @@ EXPOSE 8081
 COPY . /app
 RUN chmod +x /app/entrypoint.sh
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["/app/entrypoint.sh"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8081"]
